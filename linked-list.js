@@ -3,7 +3,7 @@ class LinkedList {
     /* to simulate memory allocation behaviour
       instead of memory address, the pointer point to array index */
     this.memory = {
-      head: null,
+      start: null,
       list: []
     }
   }
@@ -33,29 +33,34 @@ class LinkedList {
 
   append (value) {
     const address = this.#addNode(value)
-    // if list is empty, attach address to head
-    if (this.memory.list.length === 1) this.memory.head = address
+    // if list is empty, attach address to start
+    if (this.memory.list.length === 1) this.memory.start = address
     else {
-      // recursively follow next pointer, start from head
-      this.#nextPointer(this.memory.head, address)
+      // recursively follow next to set the pointer
+      this.#nextPointer(this.memory.start, address)
     }
   }
 
   prepend (value) {
     const address = this.#addNode(value)
-    if (this.memory.list.length === 1) this.memory.head = address
+    if (this.memory.list.length === 1) this.memory.start = address
     else {
-      // copy head pointer
-      const pointer = this.memory.head
-      // point node next to head address
+      // copy start pointer
+      const pointer = this.memory.start
+      // point node next to start address
       this.memory.list[address].next = pointer
-      // change head address to node address
-      this.memory.head = address
+      // change start pointer to node address
+      this.memory.start = address
     }
   }
 
   size () {
     return this.#size
+  }
+
+  head () {
+    const head = this.memory.start
+    return this.memory.list[head]
   }
 }
 
@@ -68,13 +73,9 @@ class Node {
 
 const LIST = new LinkedList()
 
-LIST.append(0)
-LIST.prepend(1)
-LIST.append(2)
-LIST.prepend(3)
-LIST.append(4)
-LIST.prepend(5)
-LIST.append(6)
-LIST.prepend(7)
+for (let i = 0; i < 10; i++) {
+  if (i % 2) LIST.append(i)
+  else LIST.prepend(i)
+}
 
-console.log(LIST.size())
+console.log(LIST.head())
