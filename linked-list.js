@@ -8,11 +8,13 @@ class LinkedList {
     }
   }
 
+  #size = 0
   #addNode (value) {
     // create a new node
     const newNode = new Node(value)
     // store the node in memory
     this.memory.list.push(newNode)
+    this.#size++
     // create an address to attach to next pointer
     const address = this.memory.list.indexOf(newNode)
     return address
@@ -51,6 +53,10 @@ class LinkedList {
       this.memory.head = address
     }
   }
+
+  size () {
+    return this.#size
+  }
 }
 
 class Node {
@@ -71,4 +77,4 @@ LIST.prepend(5)
 LIST.append(6)
 LIST.prepend(7)
 
-console.log(LIST.memory)
+console.log(LIST.size())
