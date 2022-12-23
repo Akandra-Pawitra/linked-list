@@ -11,9 +11,9 @@ class LinkedList {
   #nextPointer (next, address) {
     /* technically pointer variable is unnecessary, but (pointer === null)
       is easier to read than (this.memory.list[next].next === null) */
-    let pointer = this.memory.list[next].next
+    const pointer = this.memory.list[next].next
     if (pointer === null) {
-      pointer = address
+      this.memory.list[next].next = address
     } else {
       this.#nextPointer(pointer, address)
     }
@@ -43,8 +43,7 @@ class Node {
 }
 
 const LIST = new LinkedList()
-LIST.append(8)
-LIST.append(9)
-LIST.append(10)
-LIST.append(11)
+for (let i = 91; i <= 100; i++) {
+  LIST.append(i)
+}
 console.log(LIST.memory)
