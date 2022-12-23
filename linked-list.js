@@ -58,6 +58,20 @@ class LinkedList {
     const head = this.memory.start
     return this.memory.list[head]
   }
+
+  tail () {
+    // return last node (the one with next point to null)
+    let node = this.memory.list[this.memory.start]
+    let pointer = node.next
+    let prev
+    while (pointer !== null) {
+      node = this.memory.list[pointer]
+      // store previous pointer address before following next
+      prev = pointer
+      pointer = node.next
+    }
+    return this.memory.list[prev]
+  }
 }
 
 class Node {
@@ -76,3 +90,4 @@ for (let i = 0; i < n; i++) {
 }
 
 console.log(LIST.memory)
+console.log(LIST.tail())
