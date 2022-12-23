@@ -20,24 +20,20 @@ class LinkedList {
     return address
   }
 
-  #nextPointer (next, address) {
-    /* technically pointer variable is unnecessary, but (pointer === null)
-      is easier to read than (this.memory.list[next].next === null) */
-    const pointer = this.memory.list[next].next
-    if (pointer === null) {
-      this.memory.list[next].next = address
-    } else {
-      this.#nextPointer(pointer, address)
-    }
-  }
-
   append (value) {
     const address = this.#addNode(value)
     // if list is empty, attach address to start
     if (this.memory.list.length === 1) this.memory.start = address
     else {
-      // recursively follow next to set the pointer
-      this.#nextPointer(this.memory.start, address)
+      // follow node pointer until reach null
+      let node = this.memory.list[this.memory.start]
+      let pointer = node.next
+      while (pointer !== null) {
+        node = this.memory.list[pointer]
+        pointer = node.next
+      }
+      // when node pointer is null, set it to new node address
+      node.next = address
     }
   }
 
@@ -73,9 +69,10 @@ class Node {
 
 const LIST = new LinkedList()
 
-for (let i = 0; i < 10; i++) {
+const n = 20
+for (let i = 0; i < n; i++) {
   if (i % 2) LIST.append(i)
   else LIST.prepend(i)
 }
 
-console.log(LIST.head())
+console.log(LIST.memory)
