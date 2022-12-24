@@ -114,6 +114,19 @@ class LinkedList {
     // don't forget to reduce size
     this.#size--
   }
+
+  contains (value) {
+    let node = this.memory.list[this.memory.start]
+    let pointer = node.next
+    while (pointer !== null) {
+      // conditional below doesn't check last node value
+      if (node.value === value) return true
+      node = this.memory.list[pointer]
+      pointer = node.next
+    }
+    // check last node value
+    return (node.value === value)
+  }
 }
 
 class Node {
@@ -133,6 +146,8 @@ for (let i = 0; i < n; i++) {
   // else LIST.prepend(i)
 }
 
-console.log(LIST.memory.list)
-console.log(LIST.pop())
-console.log(LIST.memory.list)
+console.log(LIST.contains(-1))
+console.log(LIST.contains(0))
+console.log(LIST.contains(2))
+console.log(LIST.contains(10))
+console.log(LIST.contains(20))
