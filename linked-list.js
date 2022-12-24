@@ -93,6 +93,27 @@ class LinkedList {
       return this.memory.list[prev]
     }
   }
+
+  pop () {
+    let node = this.memory.list[this.memory.start]
+    let pointer = node.next
+    let prevNode
+    while (pointer !== null) {
+      // set previous node to node before updating node
+      prevNode = node
+      node = this.memory.list[pointer]
+      pointer = node.next
+    }
+    // get node and previous node memory address
+    const prevIndex = this.memory.list.indexOf(prevNode)
+    const index = this.memory.list.indexOf(node)
+    // set previous node pointer to null
+    this.memory.list[prevIndex].next = null
+    // remove node from memory
+    this.memory.list.splice(index, 1)
+    // don't forget to reduce size
+    this.#size--
+  }
 }
 
 class Node {
@@ -105,12 +126,13 @@ class Node {
 const LIST = new LinkedList()
 
 // code below is for testing
-const n = 20
+const n = 10
 for (let i = 0; i < n; i++) {
   // if (i % 2)
   LIST.append(i)
   // else LIST.prepend(i)
 }
 
-// console.log(LIST.memory)
-console.log(LIST.at(25))
+console.log(LIST.memory.list)
+console.log(LIST.pop())
+console.log(LIST.memory.list)
