@@ -60,7 +60,7 @@ class LinkedList {
   }
 
   tail () {
-    // return last node (the one with next point to null)
+    // set node at node pointed by start, or first node in list
     let node = this.memory.list[this.memory.start]
     let pointer = node.next
     let prev
@@ -71,6 +71,27 @@ class LinkedList {
       pointer = node.next
     }
     return this.memory.list[prev]
+  }
+
+  at (index) {
+    let [count, prev] = [0]
+    let node = this.memory.list[this.memory.start]
+    let pointer = node.next
+    // return first node if index is 0
+    if (index === 0) {
+      return node
+    } else {
+      // else start following next
+      while (count < index) {
+        node = this.memory.list[pointer]
+        // exit if node doesn't not exist
+        if (node === undefined) return
+        prev = pointer
+        pointer = node.next
+        count++
+      }
+      return this.memory.list[prev]
+    }
   }
 }
 
@@ -83,11 +104,13 @@ class Node {
 
 const LIST = new LinkedList()
 
+// code below is for testing
 const n = 20
 for (let i = 0; i < n; i++) {
-  if (i % 2) LIST.append(i)
-  else LIST.prepend(i)
+  // if (i % 2)
+  LIST.append(i)
+  // else LIST.prepend(i)
 }
 
-console.log(LIST.memory)
-console.log(LIST.tail())
+// console.log(LIST.memory)
+console.log(LIST.at(25))
