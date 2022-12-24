@@ -127,6 +127,19 @@ class LinkedList {
     // check last node value
     return (node.value === value)
   }
+
+  find (value) {
+    let node = this.memory.list[this.memory.start]
+    let pointer = node.next
+    while (pointer !== null) {
+      if (node.value === value) {
+        return this.memory.list.indexOf(node)
+      }
+      node = this.memory.list[pointer]
+      pointer = node.next
+    }
+    return (node.value === value) ? this.memory.list.indexOf(node) : null
+  }
 }
 
 class Node {
@@ -139,15 +152,13 @@ class Node {
 const LIST = new LinkedList()
 
 // code below is for testing
-const n = 10
-for (let i = 0; i < n; i++) {
+const n = 100
+for (let i = 90; i < n; i++) {
   // if (i % 2)
   LIST.append(i)
   // else LIST.prepend(i)
 }
 
-console.log(LIST.contains(-1))
-console.log(LIST.contains(0))
-console.log(LIST.contains(2))
-console.log(LIST.contains(10))
-console.log(LIST.contains(20))
+console.log(LIST.find(99))
+console.log(LIST.find(96))
+console.log(LIST.memory.list)
