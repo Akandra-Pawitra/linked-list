@@ -151,6 +151,7 @@ class LinkedList {
       for (let i = 0; i < this.#size - 1; i++) {
         string += `( ${node.value} ) -> `
         node = this.memory.list[pointer]
+        if (node === undefined) return
         pointer = node.next
       }
       // append last node value
@@ -158,6 +159,29 @@ class LinkedList {
       // it will break pointer = node.next in the loop
       string += `( ${node.value} ) -> null`
       return string
+    }
+  }
+
+  insertAt (value, index) {
+    if (index === 0) this.prepend(value)
+    else if (index > 0) {
+      const address = this.#addNode(value)
+      const node = this.memory.list[address]
+      let nextNode = this.memory.list[this.memory.start]
+      let pointer = nextNode.next
+      let [count, prevNode, prevPointer] = [0]
+      while (count < index) {
+        prevNode = nextNode
+        prevPointer = prevNode.next
+        nextNode = this.memory.list[pointer]
+        if (nextNode === undefined) return
+        pointer = nextNode.next
+        count++
+      }
+      // set new node pointer to previous node pointer
+      // then set previous node pointer to new node address
+      node.next = prevPointer
+      prevNode.next = address
     }
   }
 }
@@ -172,10 +196,13 @@ class Node {
 const LIST = new LinkedList()
 
 // code below is for testing
-const n = 20
+const n = 5
 for (let i = 0; i < n; i++) {
-  if (i % 2) LIST.append(i)
-  else LIST.prepend(i)
+  // if (i % 2)
+  LIST.append(i)
+  // else LIST.prepend(i)
 }
 
+console.log(LIST.toString())
+LIST.insertAt('value', 2)
 console.log(LIST.toString())
