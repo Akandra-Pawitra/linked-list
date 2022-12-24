@@ -140,6 +140,26 @@ class LinkedList {
     }
     return (node.value === value) ? this.memory.list.indexOf(node) : null
   }
+
+  toString () {
+    if (this.#size === 0) return null
+    else {
+      let string = ''
+      let node = this.memory.list[this.memory.start]
+      let pointer = node.next
+      // append node value to string except the last node
+      for (let i = 0; i < this.#size - 1; i++) {
+        string += `( ${node.value} ) -> `
+        node = this.memory.list[pointer]
+        pointer = node.next
+      }
+      // append last node value
+      // last node appended separately because node.next is undefined
+      // it will break pointer = node.next in the loop
+      string += `( ${node.value} ) -> null`
+      return string
+    }
+  }
 }
 
 class Node {
@@ -152,13 +172,10 @@ class Node {
 const LIST = new LinkedList()
 
 // code below is for testing
-const n = 100
-for (let i = 90; i < n; i++) {
-  // if (i % 2)
-  LIST.append(i)
-  // else LIST.prepend(i)
+const n = 20
+for (let i = 0; i < n; i++) {
+  if (i % 2) LIST.append(i)
+  else LIST.prepend(i)
 }
 
-console.log(LIST.find(99))
-console.log(LIST.find(96))
-console.log(LIST.memory.list)
+console.log(LIST.toString())
